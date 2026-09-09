@@ -1,0 +1,15 @@
+server:
+  port: 18080
+
+spring:
+  application:
+    name: 2d-weekend-mall
+
+mall:
+  assistant:
+    harness-base-url: http://127.0.0.1:8090
+    agent-id: customer-service-demo
+    provider: deepseek
+    model: glm-5.3-flash
+  security:
+    service-token: ${MALL_SERVICE_TOKEN:mall-internal-demo-token}

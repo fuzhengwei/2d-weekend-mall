@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2D Weekend Mall · 只卖不加班公司的商品</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="page-bg"></div>
+  <header class="site-header">
+    <a class="brand" href="/">
+      <span class="brand-mark">2D</span>
+      <span><strong>Weekend Mall</strong><small>只卖不加班公司的商品</small></span>
+    </a>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19zM19 15.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9"/></svg>
+      <input id="searchInput" type="search" placeholder="搜索沙发毯、手冲壶、降噪耳机…" autocomplete="off">
+    </div>
+    <div class="header-actions">
+      <button class="ghost-btn" id="authBtn">登录 / 注册</button>
+      <button class="ghost-btn" id="ordersBtn">我的订单</button>
+      <button class="cart-btn" id="cartBtn">
+        <span>🛒</span><small>购物车</small><i id="cartCount" class="cart-count">0</i>
+      </button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <p class="hero-eyebrow">Saturday Mode</p>
+        <h1>这两天，<em>不加班</em>，只买快乐。</h1>
+        <p class="hero-copy">2D Weekend Mall 只上架来自“不加班公司”的商品。从搜索好物到签收包裹，每一步都轻盈、清晰、不用等太久。</p>
+        <div class="hero-actions">
+          <button class="primary-btn" id="exploreBtn">开始逛逛</button>
+          <button class="secondary-btn" id="askAssistantBtn">问问智能客服</button>
+        </div>
+        <div class="hero-stats">
+          <div><strong>12</strong><span>周末好物</span></div>
+          <div><strong>6 步</strong><span>完整购物闭环</span></div>
+          <div><strong>24h</strong><span>虚拟物流更新</span></div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="sun"></div>
+        <p>本周休息主题</p>
+        <h3>Sleep Well Sunday</h3>
+        <div class="hero-tags"><span>香薰</span><span>身体乳</span><span>降噪</span></div>
+      </div>
+    </section>
+
+    <section class="catalog-head">
+      <h2>周末精选</h2>
+      <div class="category-list" id="categoryList"></div>
+    </section>
+    <section id="productGrid" class="product-grid"></section>
+  </main>
+
+  <aside id="cartDrawer" class="drawer cart-drawer">
+    <div class="drawer-head">
+      <h3>购物车</h3><button class="icon-btn" data-close>×</button>
+    </div>
+    <div id="cartItems" class="cart-items"></div>
+    <div class="cart-footer">
+      <div><small>合计</small><strong id="cartTotal">¥0.00</strong></div>
+      <button class="primary-btn full" id="checkoutBtn">去结算</button>
+    </div>
+  </aside>
+
+  <button id="assistantFab" class="assistant-fab" title="闪电客服"><span>⚡</span><i>闪电客服</i></button>
+  <div id="assistantModal" class="assistant-modal">
+    <section class="chat-panel">
+      <header class="chat-header">
+        <div class="agent-avatar">周</div>
+        <div class="agent-meta">
+        <strong>2D 小周</strong><span id="assistantLoginState">登录后可查询订单 · 正在线</span>
+        </div>
+        <button class="icon-btn" data-assistant-close>×</button>
+      </header>
+      <div id="assistantMessages" class="assistant-messages">
+        <div class="message assistant">
+          <div class="agent-avatar small">周</div>
+          <div class="chat-body"><div class="bubble">你好，我是小周。这里只提供不加班公司的商品，你可以问我商品、订单或物流～</div></div>
+        </div>
+      </div>
+      <div class="quick-prompts">
+        <button data-prompt="推荐几件来自不加班公司的周末放松商品">放松推荐</button>
+        <button data-prompt="我的订单物流到哪儿了？">查物流</button>
+        <button data-prompt="帮我查最近的订单状态">查订单</button>
+      </div>
+      <form id="assistantForm" class="assistant-form">
+        <input id="assistantInput" placeholder="说说你想买什么，或把订单号发我…" autocomplete="off">
+        <button type="submit" class="send-btn">发送</button>
+      </form>
+    </section>
+  </div>
+
+  <div id="modal" class="modal"><div class="modal-card" id="modalCard"></div></div>
+  <div id="toast" class="toast"></div>
+  <script src="./app.js"></script>
+</body>
+</html>

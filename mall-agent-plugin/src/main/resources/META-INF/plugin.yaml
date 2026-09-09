@@ -1,0 +1,6 @@
+id: mall-weekend-assistant
+name: 2D Weekend Mall Assistant
+version: 1.0.0
+author: Xiaofuge
+description: 2D Weekend Mall smart customer service plugin for product, order and logistics queries.
+entrypoint: cn.xiaofuge.mall.assistant.MallWeekendAssistantPlugin

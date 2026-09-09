@@ -11,5 +11,6 @@ mall:
     agent-id: customer-service-demo
     provider: deepseek
     model: glm-5.3-flash
+    approval-mode: FULL_OPEN
   security:
     service-token: ${MALL_SERVICE_TOKEN:mall-internal-demo-token}

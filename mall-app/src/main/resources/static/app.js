@@ -328,21 +328,56 @@ function inlineMarkdown(value) {
       '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
 }
 
+function isTableSeparator(line) {
+  return /^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)+\|?\s*$/.test(line);
+}
+
+function tableRow(value) {
+  return value.trim().replace(/^\||\|$/g, '').split('|').map(cell => cell.trim());
+}
+
 function renderMarkdown(value) {
   const lines = String(value ?? '').replace(/\r/g, '').split('\n');
   let html = '';
   let listType = null;
   let listItems = [];
+  let tableRows = [];
   const flushList = () => {
     if (!listType) return;
     html += `<${listType}>${listItems.map(item => `<li>${inlineMarkdown(item)}</li>`).join('')}</${listType}>`;
     listType = null;
     listItems = [];
   };
+  const flushTable = () => {
+    if (!tableRows.length) return;
+    const header = tableRows[0];
+    const bodyRows = tableRows.slice(1);
+    html += `<div class="md-table"><table><thead><tr>${
+      header.map(cell => `<th>${inlineMarkdown(cell)}</th>`).join('')
+    }</tr></thead><tbody>${
+      bodyRows.map(row => `<tr>${
+        header.map((_, index) => `<td>${inlineMarkdown(row[index] ?? '')}</td>`).join('')
+      }</tr>`).join('')
+    }</tbody></table></div>`;
+    tableRows = [];
+  };
   lines.forEach(line => {
-    if (/^###?\s+/.test(line)) {
+    if (/^```/.test(line)) {
       flushList();
-      html += `<h3>${inlineMarkdown(line.replace(/^###?\s+/, ''))}</h3>`;
+      flushTable();
+      return;
+    }
+    if (/^\s*\|.*\|\s*$/.test(line)) {
+      flushList();
+      if (isTableSeparator(line)) return;
+      tableRows.push(tableRow(line));
+      return;
+    }
+    flushTable();
+    if (/^#{1,3}\s+/.test(line)) {
+      const level = Math.min(3, line.match(/^#+/)[0].length);
+      flushList();
+      html += `<h${level}>${inlineMarkdown(line.replace(/^#{1,3}\s+/, ''))}</h${level}>`;
       return;
     }
     if (/^\s*[-*]\s+/.test(line)) {
@@ -369,6 +404,7 @@ function renderMarkdown(value) {
     html += `<p>${inlineMarkdown(line)}</p>`;
   });
   flushList();
+  flushTable();
   return html || '<p></p>';
 }
 

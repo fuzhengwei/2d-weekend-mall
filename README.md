@@ -12,12 +12,16 @@
 
 ## 启动商城
 
+商城服务本身无需数据库插件，可直接启动：
+
 ```bash
 cd /Users/fuzhengwei/DevOps/2d-weekend-mall
 mvn -pl mall-app spring-boot:run
 ```
 
 打开 <http://localhost:18080>。默认演示用户是 `customer-1`。
+
+> 重要：页面右上角的 **AI 客服** 不是商城独立能力。必须先在 `deepseek-harness-java` 中导入并启动 `mall-weekend-assistant` 插件，否则客服无法调用商品、订单和物流工具。完整接入流程见 Harness 仓库的 [`README.md`](../deepseek-harness-java/README.md)。
 
 ## 安装客服插件
 
@@ -50,6 +54,7 @@ curl -X POST http://localhost:8090/api/harness/plugins/run \
 
 在 Harness 插件配置中设置 `mall.service-token`，值需要与商城的
 `mall.security.service-token` 一致。客服插件通过这个服务凭证查询当前登录用户的订单和物流。
+同时建议设置 `mall.base-url` 为 `http://127.0.0.1:18080`。保存插件配置后，停用并重新启用插件，确保插件重新执行 `configure(context)`。
 
 ## 客服助手
 

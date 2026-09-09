@@ -33,6 +33,7 @@ public class AssistantController {
     private final String agentId;
     private final String provider;
     private final String model;
+    private final String approvalMode;
     private final HttpClient httpClient;
     private final MallService mallService;
 
@@ -42,6 +43,7 @@ public class AssistantController {
             @Value("${mall.assistant.agent-id:customer-service-demo}") String agentId,
             @Value("${mall.assistant.provider:deepseek}") String provider,
             @Value("${mall.assistant.model:glm-5.3-flash}") String model,
+            @Value("${mall.assistant.approval-mode:FULL_OPEN}") String approvalMode,
             MallService mallService
     ) {
         this.objectMapper = objectMapper;
@@ -49,6 +51,7 @@ public class AssistantController {
         this.agentId = agentId;
         this.provider = provider;
         this.model = model;
+        this.approvalMode = approvalMode;
         this.mallService = mallService;
         this.httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(5)).build();
     }
@@ -127,6 +130,7 @@ public class AssistantController {
         payload.put("agentId", agentId);
         payload.put("provider", provider);
         payload.put("model", model);
+        payload.put("approvalMode", approvalMode);
         payload.put("message", contextualMessage);
         payload.put("sessionId", null);
         return objectMapper.writeValueAsString(payload);

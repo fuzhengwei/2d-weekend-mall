@@ -273,6 +273,17 @@ button { cursor: pointer; border: 0; background: transparent; }
   background: #123f39; color: #eafaf2; font-size: 12px; line-height: 1.5;
 }
 .bubble pre code { padding: 0; background: transparent; color: inherit; }
+.md-table { margin: 8px 0; overflow-x: auto; }
+.bubble table {
+  width: 100%; border-collapse: collapse; table-layout: auto;
+  background: #f8fdfc; border-radius: 10px; overflow: hidden; font-size: 12px;
+}
+.bubble th, .bubble td {
+  padding: 8px 10px; border-bottom: 1px solid rgba(18,63,57,.12);
+  white-space: nowrap; vertical-align: top; text-align: left;
+}
+.bubble th { background: #e3f6f0; color: #123f39; font-weight: 800; }
+.bubble tr:last-child td { border-bottom: 0; }
 .sloth-loader {
   display: flex; align-items: center; gap: 9px; margin-top: 8px; padding: 8px 12px;
   border-radius: 20px; background: #fff; box-shadow: 0 10px 26px rgba(46,74,68,.08);

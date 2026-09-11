@@ -1,0 +1,15 @@
+# 2d-weekend-mall 运行镜像
+# 构建上下文为仓库根目录，jar 由 GitHub Action 中的 Maven 步骤提前构建
+FROM eclipse-temurin:17-jre
+
+LABEL org.opencontainers.image.source="https://github.com/fuzhengwei/2d-weekend-mall"
+
+WORKDIR /app
+
+COPY mall-app/target/mall-app-*.jar app.jar
+
+EXPOSE 18080
+
+ENV JAVA_OPTS=""
+
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

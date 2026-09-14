@@ -77,6 +77,10 @@ public class AuthService {
         return customers.get(session.customerId());
     }
 
+    public Customer currentCustomerById(String customerId) {
+        return customerId == null || customerId.isBlank() ? null : customers.get(customerId.trim());
+    }
+
     public void logout(HttpServletRequest request) {
         String token = bearerToken(request);
         if (token != null) {

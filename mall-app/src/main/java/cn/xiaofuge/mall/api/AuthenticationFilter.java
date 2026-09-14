@@ -40,17 +40,26 @@ public class AuthenticationFilter implements Filter {
 
         String incomingServiceToken = request.getHeader("X-Service-Token");
         boolean serviceAuthorized = incomingServiceToken != null && incomingServiceToken.equals(serviceToken);
-        Customer customer = serviceAuthorized ? null : authService.currentCustomer(request);
+        Customer customer = serviceAuthorized
+                ? authService.currentCustomerById(request.getParameter("customerId"))
+                : authService.currentCustomer(request);
         boolean publicApi = request.getRequestURI().startsWith("/api/auth/")
                 || request.getRequestURI().startsWith("/api/mall/products");
-        if (publicApi || customer != null || serviceAuthorized) {
-            if (customer != null) {
-                request.setAttribute("currentCustomer", customer);
-            }
+        if (publicApi) {
             chain.doFilter(request, response);
             return;
         }
 
+        if (customer == null) {
+            unauthorized(response);
+            return;
+        }
+
+        request.setAttribute("currentCustomer", customer);
+        chain.doFilter(request, response);
+    }
+
+    private void unauthorized(HttpServletResponse response) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
